@@ -15,6 +15,7 @@ class App(tk.Frame):
         self.buttons = dict()
         self.check_buttons = dict()
         self.entries = dict()
+        self.int_vars = dict()
 
         self.labels["title_label"] = tk.Label(self, text="Favorite Ice Cream")
         self.labels["title_label"].pack()
@@ -24,19 +25,31 @@ class App(tk.Frame):
         self.buttons["submit_button"] = tk.Button(self, text="Submit", state="disabled")
         self.buttons["submit_button"].pack()
 
-        self.check_buttons["chocolate_check_button"] = tk.Checkbutton(self, text="Chocolate")
+        self.int_vars["chocolate_state"] = tk.IntVar()
+        self.check_buttons["chocolate_check_button"] = tk.Checkbutton(self, text="Chocolate", variable=self.int_vars["chocolate_state"])
         self.check_buttons["chocolate_check_button"].pack()
-        self.check_buttons["vanilla_check_button"] = tk.Checkbutton(self, text="Vanilla")
+        self.int_vars["vanilla_state"] = tk.IntVar()
+        self.check_buttons["vanilla_check_button"] = tk.Checkbutton(self, text="Vanilla", variable=self.int_vars["vanilla_state"])
         self.check_buttons["vanilla_check_button"].pack()
-        self.check_buttons["mint_check_button"] = tk.Checkbutton(self, text="Mint")
+        self.int_vars["mint_state"] = tk.IntVar()
+        self.check_buttons["mint_check_button"] = tk.Checkbutton(self, text="Mint", variable=self.int_vars["mint_state"])
         self.check_buttons["mint_check_button"].pack()
-        self.check_buttons["_check_button"] = tk.Checkbutton(self, text="Cookie")
-        self.check_buttons["_check_button"].pack()
-        self.check_buttons["_check_button"] = tk.Checkbutton(self, text="Strawberry")
-        self.check_buttons["_check_button"].pack()
+        self.int_vars["cookie_state"] = tk.IntVar()
+        self.check_buttons["cookie_check_button"] = tk.Checkbutton(self, text="Cookie", variable=self.int_vars["cookie_state"])
+        self.check_buttons["cookie_check_button"].pack()
+        self.int_vars["strawberry_state"] = tk.IntVar()
+        self.check_buttons["strawberry_check_button"] = tk.Checkbutton(self, text="Strawberry", variable=self.int_vars["strawberry_state"])
+        self.check_buttons["strawberry_check_button"].pack()
+
+        self.clear_and_submit_check()
 
     def clear_and_submit_check(self):
-        pass
+        if 1 in [self.int_vars[f'{x.split("_")[0]}_state'].get() for x in self.check_buttons.keys()]:
+            if "disabled" in self.buttons["submit_button"].config("state") and\
+                    "disabled" in self.buttons["clear_button"].config("state"):
+                self.buttons["submit_button"].config(state="normal")
+                self.buttons["clear_button"].config(state="normal")
+        self.after(1, self.clear_and_submit_check)
 
 
 if __name__ == "__main__":
