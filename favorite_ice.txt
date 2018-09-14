@@ -1,5 +1,0 @@
-chocolate: 0
-vanilla: 0
-mint: 0
-cookie: 0
-strawberry: 0

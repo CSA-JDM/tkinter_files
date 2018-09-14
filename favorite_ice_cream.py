@@ -17,7 +17,7 @@ class App(tk.Frame):
         self.entries = dict()
         self.int_vars = dict()
 
-        self.labels["title_label"] = tk.Label(self, text="Favorite Ice Cream")
+        self.labels["title_label"] = tk.Label(self, text="Checkbuttons")
         self.labels["title_label"].pack()
 
         self.int_vars["chocolate_state"] = tk.IntVar()
@@ -60,6 +60,7 @@ class App(tk.Frame):
         self.after(1, self.clear_and_submit_check)
 
     def submit_choices(self):
+        global favorite_ice_txt, favorite_ice_info
         values = [[x, self.int_vars[f'{x.split("_")[0]}_state'].get()] for x in self.check_buttons.keys()]
         favorite_ice_flavors = favorite_ice_info.split("\n")
         favorite_ice_flavors = [x.split(": ") for x in favorite_ice_flavors]
@@ -67,12 +68,22 @@ class App(tk.Frame):
             if value == 1:
                 favorite_ice_flavors[
                     [x for x in range(len(favorite_ice_flavors)) if favorite_ice_flavors[x][0] == name.split("_")[0]][
-                        0]][1] = int(favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors)) if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1])
-                favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors)) if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1] += 1
-                # favorite_ice_txt = open("favorite_ice.txt", "w")
-                print("".join(value_) for value_ in values)
-                # favorite_ice_txt.write("".join(values))
-                # favorite_ice_txt.close()
+                        0]][1] = int(favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors))
+                                                           if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1])
+                favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors))
+                                      if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1] += 1
+                favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors))
+                                      if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1] = \
+                    str(favorite_ice_flavors[[x for x in range(len(favorite_ice_flavors))
+                                              if favorite_ice_flavors[x][0] == name.split("_")[0]][0]][1])
+        favorite_ice_txt = open("favorite_ice.txt", "w")
+        favorite_ice_flavors = [": ".join(x) for x in favorite_ice_flavors]
+        favorite_ice_flavors = "\n".join(favorite_ice_flavors)
+        favorite_ice_txt.write(favorite_ice_flavors)
+        favorite_ice_txt.close()
+        favorite_ice_txt = open("favorite_ice.txt", "r")
+        favorite_ice_info = favorite_ice_txt.read()
+        favorite_ice_txt.close()
 
     def clear_choices(self):
         for x in self.check_buttons.keys():
