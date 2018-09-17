@@ -26,13 +26,6 @@ class App(tk.Frame):
         self.labels["age_label"] = tk.Label(self, text="Age")
         self.labels["age_label"].grid(column=1, row=3, sticky="w")
 
-        self.str_vars["name_str"] = tk.StringVar()
-        self.entries["name_entry"] = tk.Entry(self, width=20, textvariable=self.str_vars["name_str"])
-        self.entries["name_entry"].grid(column=1, row=2, sticky="w")
-        self.str_vars["age_str"] = tk.StringVar()
-        self.entries["age_entry"] = tk.Entry(self, width=5, textvariable=self.str_vars["age_str"])
-        self.entries["age_entry"].grid(column=1, row=4, sticky="w")
-
         self.int_vars["loan_int"] = tk.IntVar()
 
         self.radio_buttons["car_radio_button"] = tk.Radiobutton(self, text="Car",
@@ -44,6 +37,13 @@ class App(tk.Frame):
         self.radio_buttons["personal_radio_button"] = tk.Radiobutton(self, text="Personal",
                                                                      variable=self.int_vars["loan_int"], value=3)
         self.radio_buttons["personal_radio_button"].grid(column=0, row=4, sticky="w")
+
+        self.str_vars["name_str"] = tk.StringVar()
+        self.entries["name_entry"] = tk.Entry(self, width=20, textvariable=self.str_vars["name_str"])
+        self.entries["name_entry"].grid(column=1, row=2, sticky="w")
+        self.str_vars["age_str"] = tk.StringVar()
+        self.entries["age_entry"] = tk.Entry(self, width=5, textvariable=self.str_vars["age_str"])
+        self.entries["age_entry"].grid(column=1, row=4, sticky="w")
 
         self.buttons["submit_button"] = tk.Button(self, text="Submit", state="disabled", command=self.submit_choices)
         self.buttons["submit_button"].grid(column=2, row=5)
@@ -61,28 +61,20 @@ class App(tk.Frame):
             self.buttons["submit_button"].config(state="disabled")
         self.after(1, self.submit_check)
 
-    def submit_choices(self):  # todo actually write the proper information in the file (still has old code)
+    def submit_choices(self):
         global credit_info, credit_info_txt
         values = [[x, self.radio_buttons[x].getvar(self.radio_buttons[x].config("variable")[-1])]
                   for x in self.radio_buttons.keys()]
-        credit_info_flavors = credit_info.split("\n")
-        credit_info_flavors = [x.split(", ") for x in credit_info_flavors]
-        for name, value in values:
-            if value == 1:
-                credit_info_flavors[
-                    [x for x in range(len(credit_info_flavors)) if credit_info_flavors[x][0] == name.split("_")[0]][
-                        0]][1] = int(credit_info_flavors[[x for x in range(len(credit_info_flavors))
-                                                           if credit_info_flavors[x][0] == name.split("_")[0]][0]][1])
-                credit_info_flavors[[x for x in range(len(credit_info_flavors))
-                                      if credit_info_flavors[x][0] == name.split("_")[0]][0]][1] += 1
-                credit_info_flavors[[x for x in range(len(credit_info_flavors))
-                                      if credit_info_flavors[x][0] == name.split("_")[0]][0]][1] = \
-                    str(credit_info_flavors[[x for x in range(len(credit_info_flavors))
-                                              if credit_info_flavors[x][0] == name.split("_")[0]][0]][1])
+        credit_info_info = credit_info.split("\n")
+        credit_info_info = [x.split(", ") for x in credit_info_info]
         credit_info_txt = open("credit_info.txt", "w")
-        credit_info_flavors = [", ".join(x) for x in credit_info_flavors]
-        credit_info_flavors = "\n".join(credit_info_flavors)
-        credit_info_txt.write(credit_info_flavors)
+        loan_option = values[values[-1][-1]-1][0].split("_")[0].title()
+        name = [self.entries["name_entry"].getvar(self.entries["name_entry"].config("textvariable")[-1])][0]
+        age = [self.entries["age_entry"].getvar(self.entries["age_entry"].config("textvariable")[-1])][0]
+        credit_info_info = [", ".join(x) for x in credit_info_info]
+        credit_info_info = "\n".join(credit_info_info)
+        credit_info_info += f"{loan_option}, {name}, {age}\n"
+        credit_info_txt.write(credit_info_info)
         credit_info_txt.close()
         credit_info_txt = open("credit_info.txt", "r")
         credit_info = credit_info_txt.read()
