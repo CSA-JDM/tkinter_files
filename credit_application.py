@@ -62,7 +62,7 @@ class App(tk.Frame):
         self.after(1, self.submit_check)
 
     def submit_choices(self):
-        global credit_info, credit_info_txt
+        global credit_info, credit_info_txt, credit_info_info
         values = [[x, self.radio_buttons[x].getvar(self.radio_buttons[x].config("variable")[-1])]
                   for x in self.radio_buttons.keys()]
         credit_info_info = credit_info.split("\n")
@@ -73,7 +73,7 @@ class App(tk.Frame):
         age = [self.entries["age_entry"].getvar(self.entries["age_entry"].config("textvariable")[-1])][0]
         credit_info_info = [", ".join(x) for x in credit_info_info]
         credit_info_info = "\n".join(credit_info_info)
-        credit_info_info += f"{loan_option}, {name}, {age}\n"
+        credit_info_info += f"Loan: {loan_option}, Name: {name}, Age: {age}\n"
         credit_info_txt.write(credit_info_info)
         credit_info_txt.close()
         credit_info_txt = open("credit_info.txt", "r")
@@ -94,3 +94,9 @@ if __name__ == "__main__":
     root = tk.Tk()
     App(root)
     root.mainloop()
+    try:
+        credit_info_txt = open("credit_info.txt", "w")
+        credit_info_txt.write(credit_info_info)
+        credit_info_txt.close()
+    except NameError:
+        pass
