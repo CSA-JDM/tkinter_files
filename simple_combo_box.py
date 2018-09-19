@@ -25,14 +25,15 @@ class App(tk.Frame):
         self.labels["season_label"] = tk.Label(self)
         self.labels["season_label"].grid(column=0, row=2)
 
-        self.combo_boxes["seasons_combo_box"] = tk.ttk.Combobox(self, state="readonly", values=["Texas", "California"])
+        self.combo_boxes["seasons_combo_box"] = tk.ttk.Combobox(self, state="readonly", postcommand=self.focus_set,
+                                                                values=["Spring", "Summer", "Fall", "Winter", "N/A"])
         self.combo_boxes["seasons_combo_box"].grid(column=0, row=1)
 
         self.combo_boxes["seasons_combo_box"].bind("<<ComboboxSelected>>", self.season_label_update)
 
     def season_label_update(self, event):
         self.labels["season_label"].config(text=self.combo_boxes["seasons_combo_box"].get())
-        self.combo_boxes["seasons_combo_box"].selection_clear()  # todo fix this
+        self.focus_set()
 
 
 if __name__ == "__main__":
