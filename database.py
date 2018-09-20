@@ -16,15 +16,18 @@ class App(tk.Frame):
 
         self.labels = dict()
         self.buttons = dict()
+        self.check_buttons = dict()
+        self.combo_boxes = dict()
         self.entries = dict()
         self.radio_buttons = dict()
         self.str_vars = dict()
         self.int_vars = dict()
         self.vars = dict()
 
+        self.str_vars["username_str"] = tk.StringVar()
         self.labels["username_label"] = tk.Label(self, text="Username:")
         self.labels["username_label"].place(x=5, y=5)
-        self.entries["username_entry"] = tk.Entry(self)
+        self.entries["username_entry"] = tk.Entry(self, textvariable=self.str_vars["username_str"])
         self.entries["username_entry"].place(x=75, y=5)
 
         self.labels["password_label"] = tk.Label(self, text="Password:")
@@ -42,6 +45,27 @@ class App(tk.Frame):
         self.radio_buttons["male_radio_button"].place(x=35, y=65)
         self.radio_buttons["female_radio_button"] = tk.Radiobutton(self, text="Female", value=2)
         self.radio_buttons["female_radio_button"].place(x=95, y=65)
+
+        self.int_vars["user_type_int"] = tk.IntVar()
+        self.check_buttons["admin_check_button"] = tk.Checkbutton(self, text="Admin", onvalue=1,
+                                                                  variable=self.int_vars["user_type_int"])
+        self.check_buttons["admin_check_button"].place(x=5, y=95)
+        self.check_buttons["user_check_button"] = tk.Checkbutton(self, text="User", onvalue=2,
+                                                                 variable=self.int_vars["user_type_int"])
+        self.check_buttons["user_check_button"].place(x=65, y=95)
+        self.check_buttons["guest_check_button"] = tk.Checkbutton(self, text="Guest", onvalue=3,
+                                                                  variable=self.int_vars["user_type_int"])
+        self.check_buttons["guest_check_button"].place(x=115, y=95)
+
+        self.combo_boxes["department_combo_box"] = tk.ttk.Combobox(self,
+                                                                   values=["IT", "HR", "Sales", "Maintenance", "Other"])
+        self.combo_boxes["department_combo_box"].place(x=5, y=125)
+
+        self.buttons["submit_button"] = tk.Button(self, text="Submit")
+        self.buttons["submit_button"].place(x=5, y=155)
+
+        self.buttons["clear_button"] = tk.Button(self, text="Clear")
+        self.buttons["clear_button"].place(x=65, y=155)
 
     def password_update(self):
         password_len = len(self.str_vars["password_str"].get())
