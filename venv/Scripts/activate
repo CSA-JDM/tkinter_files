@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\jmeadows\PycharmProjects\tkinter_practice\venv"
+VIRTUAL_ENV="C:\Users\Jacob\Documents\GitHub\tkinter_files\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

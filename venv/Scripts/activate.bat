@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=C:\Users\jmeadows\PycharmProjects\tkinter_practice\venv"
+set "VIRTUAL_ENV=C:\Users\Jacob\Documents\GitHub\tkinter_files\venv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"
