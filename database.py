@@ -38,9 +38,7 @@ class App(tk.Frame):
         self.labels["password_label"] = tk.Label(self, text="Password:")
         self.labels["password_label"].place(x=5, y=35)
         self.str_vars["password_str"] = tk.StringVar()
-        self.entries["password_entry"] = tk.Entry(self, textvariable=self.str_vars["password_str"])
-        self.vars["password_var"] = ""
-        self.entries["password_entry"].bind("<Key>", lambda event: self.after(1, self.password_update))
+        self.entries["password_entry"] = tk.Entry(self, textvariable=self.str_vars["password_str"], show="*")
         self.entries["password_entry"].place(x=75, y=35)
 
         self.labels["sex_label"] = tk.Label(self, text="Sex:")
@@ -100,13 +98,19 @@ class App(tk.Frame):
                 widget.place_configure(y=widget.winfo_y() + 30)
             self.labels["submit_label"] = tk.Label(self)
             self.labels["submit_label"].place(x=5, y=5)
-        if "User Created" not in self.labels["submit_label"].config("text"):
+        if self.str_vars["password_str"].get() != "" and self.int_vars["sex_int"].get() != 0 and \
+                self.int_vars["user_type_int"].get() != 0 and self.combo_boxes["department_combo_box"].get() != "":
+            # todo add file portion
             self.labels["submit_label"].config(text="User Created")
         elif "Error" not in self.labels["submit_label"].config("text"):
             self.labels["submit_label"].config(text="Error")
 
 
 if __name__ == "__main__":
+    try:
+        pass
+    except FileNotFoundError:
+        pass
     root = tk.Tk()
     App(root)
     root.mainloop()
