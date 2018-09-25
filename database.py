@@ -92,15 +92,26 @@ class App(tk.Frame):
         self.widget_init()
 
     def submit_command(self):
+        global database_data_txt, database_data
         self.master.config(height=215)
         if "submit_label" not in self.labels:
             for widget in self.winfo_children():
                 widget.place_configure(y=widget.winfo_y() + 30)
             self.labels["submit_label"] = tk.Label(self)
             self.labels["submit_label"].place(x=5, y=5)
-        if self.str_vars["password_str"].get() != "" and self.int_vars["sex_int"].get() != 0 and \
+        if self.str_vars["username_str"].get() != "" and self.str_vars["password_str"].get() != "" and self.int_vars["sex_int"].get() != 0 and \
                 self.int_vars["user_type_int"].get() != 0 and self.combo_boxes["department_combo_box"].get() != "":
-            # todo add file portion
+            database_data_txt = open("database_data.txt", "w")
+            database_data_txt.write(database_data +
+                                    f"{self.str_vars['username_str'].get()} "
+                                    f"{self.str_vars['password_str'].get()} "
+                                    f"{'Male' if self.int_vars['sex_int'].get() == 1 else 'Female'} "
+                                    f"{['Admin', 'User', 'Guest'][self.int_vars['user_type_int'].get() - 1]} "
+                                    f"{self.combo_boxes['department_combo_box'].get()}\n")
+            database_data_txt.close()
+            database_data_txt = open("database_data.txt", "r")
+            database_data = database_data_txt.read()
+            database_data_txt.close()
             self.labels["submit_label"].config(text="User Created")
         elif "Error" not in self.labels["submit_label"].config("text"):
             self.labels["submit_label"].config(text="Error")
@@ -108,9 +119,12 @@ class App(tk.Frame):
 
 if __name__ == "__main__":
     try:
-        pass
+        database_data_txt = open("database_data.txt", "r")
     except FileNotFoundError:
-        pass
+        database_data_txt = open("database_data.txt", "w")
+        database_data_txt.close()
+        database_data_txt = open("database_data.txt", "r")
+    database_data = database_data_txt.read()
     root = tk.Tk()
     App(root)
     root.mainloop()
