@@ -13,8 +13,6 @@ class App(tk.Frame):
         self.config(width=240, height=185)
         self.place(x=0, y=0)
         self.grid_propagate(0)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(0, weight=1)
 
         self.labels = dict()
         self.buttons = dict()
@@ -29,9 +27,25 @@ class App(tk.Frame):
                         self.radio_buttons, self.str_vars, self.int_vars, self.vars]
 
         self.labels["name_label"] = tk.Label(self, text="Name")
-        self.labels["name_label"].grid(column=0, row=0)
+        self.labels["name_label"].grid(column=0, row=0, sticky="ne")
         self.entries["right_entry"] = tk.Entry(self)
-        self.entries["right_entry"].grid(column=1, row=0)
+        self.entries["right_entry"].grid(column=1, row=0, sticky="nw")
+        self.buttons["cancel_button"] = tk.Button(self, text="Cancel")
+        self.buttons["cancel_button"].grid(column=0, row=1, sticky="n")
+        self.buttons["clear_button"] = tk.Button(self, text="Clear")
+        self.buttons["clear_button"].grid(column=1, row=1, sticky="n")
+
+        for column in range(self.grid_size()[0]):
+            self.grid_columnconfigure(column, weight=1)
+        for row in range(self.grid_size()[1]):
+            self.grid_rowconfigure(row, weight=1)
+
+        self.update_frame()
+
+    def update_frame(self):
+        if self.config("width")[-1] != self.master.geometry().split("x")[0]:
+            self.config(width=self.master.geometry().split("x")[0])
+        self.after(1, self.update_frame)
 
 
 if __name__ == "__main__":
