@@ -14,17 +14,17 @@ class App(tk.Frame):
         self.list_boxes = dict()
         self.str_vars = dict()
 
-        self.str_vars["top_str"] = tk.StringVar(value="Python 3.7\n Python 3.6")
-        self.list_boxes["top_list_box"] = tk.Listbox(self, listvariable=self.str_vars["top_str"])
+        self.list_boxes["top_list_box"] = tk.Listbox(self)
+        self.list_box_update(self.list_boxes["top_list_box"], "Python 3.6\nPython 3.7")
         self.list_boxes["top_list_box"].place(x=0, y=0)
-        # self.str_vars["top_str"].get().split("\n") < is how you connect the exported index to the string var value.
 
-        self.list_box_update()
-
-    def list_box_update(self):
-        for list_box in self.list_boxes.values():
-            self.str_vars.values()[]
-        self.after(1, self.list_box_update)
+    def list_box_update(self, list_box, text):
+        if isinstance(text, str):
+            for string in text.split("\n"):
+                list_box.insert(len(list_box.get(0, tk.END)), string)
+        elif isinstance(text, list) or isinstance(text, tuple):
+            for string in text:
+                list_box.insert(len(list_box.get(0, tk.END)), string)
 
     def __str__(self):
         pass
