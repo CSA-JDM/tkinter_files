@@ -12,11 +12,23 @@ class App(tk.Frame):
         self.place(x=0, y=0)
 
         self.list_boxes = dict()
+        self.buttons = dict()
         self.str_vars = dict()
 
         self.list_boxes["top_list_box"] = tk.Listbox(self)
         self.list_box_update(self.list_boxes["top_list_box"], "Python 3.6\nPython 3.7")
         self.list_boxes["top_list_box"].place(x=0, y=0)
+        self.buttons["submit_button"] = tk.Button(self, text="Submit")
+
+        self.submit_check()
+
+    def submit_check(self):
+        if None is not None:
+            if "disabled" in self.buttons["submit_button"].config("state"):
+                self.buttons["submit_button"].config(state="normal")
+            else:
+                self.buttons["submit_button"].config(state="disabled")
+        self.after(1, self.submit_check)
 
     def list_box_update(self, list_box, text):
         if isinstance(text, str):
