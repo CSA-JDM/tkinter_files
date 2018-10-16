@@ -18,11 +18,20 @@ class App(tk.Frame):
 
     def widget_init(self):
         self.widgets["menu"] = tk.Menu(self)
-        self.widgets["hello_menu"] = tk.Menu(self.widgets["menu"], tearoff=0)
-        self.widgets["menu"].add_cascade(label="Hello!", menu=self.widgets["hello_menu"])
-        self.widgets["hello_menu"].add_command(label="Hello!!", command=lambda: tk.Label(self, text="Hello!!!").pack())
-        self.widgets["menu"].add_command(label="Quit!", command=self.quit)
+        self.widgets["file_menu"] = tk.Menu(self.widgets["menu"], tearoff=0)
+        self.widgets["file_menu"].add_command(label="Save", command=lambda: None)
+        self.widgets["file_menu"].add_command(label="Exit", command=self.quit)
+        self.widgets["help_menu"] = tk.Menu(self.widgets["menu"], tearoff=0)
+        self.widgets["help_menu"].add_command(label="About", command=self.about_command)
+        self.widgets["menu"].add_cascade(label="File", menu=self.widgets["file_menu"])
+        self.widgets["menu"].add_cascade(label="Help", menu=self.widgets["help_menu"])
         self.master.config(menu=self.widgets["menu"])
+
+    def about_command(self):
+        self.widgets["about_toplevel"] = tk.Toplevel(self)
+        self.widgets["about_toplevel"].title("About")
+        self.widgets["about_message"] = tk.Message(self.widgets["about_toplevel"], text="About")
+        self.widgets["about_message"].pack()
 
 
 if __name__ == "__main__":
