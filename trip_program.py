@@ -26,6 +26,9 @@ class App(tk.Frame):
         self.widgets["menu"].add_cascade(label="File", menu=self.widgets["file_menu"])
         self.widgets["menu"].add_cascade(label="Help", menu=self.widgets["help_menu"])
         self.master.config(menu=self.widgets["menu"])
+        self.widgets["countries_str_var"] = tk.StringVar(value=("USA", "Canada"))
+        self.widgets["countries_listbox"] = tk.Listbox(self, listvariable=self.widgets["countries_str_var"])
+        self.widgets["countries_scrollbar"] = tk.Scrollbar(self)
 
     def about_command(self):
         self.widgets["about_toplevel"] = tk.Toplevel(self)
